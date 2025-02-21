@@ -1,0 +1,14 @@
+[
+  {
+    "modid": "${id}",
+    "name": "${name}",
+    "description": "Directly handles input from the Mouse. Powered By Oneconfig.",
+    "version": "${version}",
+    "mcversion": "${mcVersionStr}",
+    "url": "https://modrinth.com/project/rawinput",
+    "logoFile": "rawinput.png",
+    "authorList": [
+      "chromaticforge", "femmeromantic"
+    ]
+  }
+]
