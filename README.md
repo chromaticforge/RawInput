@@ -3,4 +3,4 @@ Directly handles input from the Mouse. Powered by Oneconfig.
 
 ---
 
-#### Code licensed under [LGPL-3.0-or-later](LICENSE), Icon from [Font Awesome](https://fontawesome.com/).
+#### Code licensed under [LGPL](LICENSE), Icon from [Font Awesome](https://fontawesome.com/).
