@@ -22,7 +22,7 @@ object RescanThread : Thread("Rescan") {
                 if (PollingThread.dx == 0.0f && PollingThread.dy == 0.0f
                     && abs(org.lwjgl.input.Mouse.getDX()) > 3 && abs(org.lwjgl.input.Mouse.getDY()) > 3)
                 {
-                    if (++fails > 3) rescan()
+                    if (++fails > 5) rescan()
                 } else {
                     fails = 0
                 }
