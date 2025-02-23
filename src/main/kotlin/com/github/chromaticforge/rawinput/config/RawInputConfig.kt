@@ -14,7 +14,7 @@ import com.github.chromaticforge.rawinput.util.RescanThread
 import org.apache.commons.lang3.SystemUtils
 
 
-object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/rawinput-dark.png"), "${RawInputMod.MODID}.json") {
+object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/rawinput_dark.png"), "${RawInputMod.MODID}.json") {
     init {
         initialize()
 
