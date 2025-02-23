@@ -10,11 +10,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Minecraft.class)
-public class MixinMouseHelper {
+public class MixinMinecraft {
     @Shadow
     public MouseHelper mouseHelper;
 
-    @Inject(method="startGame", at=@At("TAIL"))
+    @Inject(method = "startGame", at = @At("TAIL"))
     private void startGame(CallbackInfo info) {
         mouseHelper = new RawMouseHelper();
     }

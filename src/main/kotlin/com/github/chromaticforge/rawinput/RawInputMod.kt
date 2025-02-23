@@ -19,7 +19,7 @@ object RawInputMod {
     const val VERSION: String = "@VER@"
 
     @Mod.EventHandler
-    fun onFMLInitialization(event: FMLInitializationEvent?) {
+    fun onFMLInitialization(event: FMLInitializationEvent) {
         RawInputConfig
         CommandManager.INSTANCE.registerCommand(RawInputCommand)
         CommandManager.INSTANCE.registerCommand(RescanCommand)

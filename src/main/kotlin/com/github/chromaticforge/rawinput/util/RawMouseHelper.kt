@@ -1,21 +1,20 @@
 package com.github.chromaticforge.rawinput.util
 
-import com.github.chromaticforge.rawinput.RescanThread
+import com.github.chromaticforge.rawinput.config.RawInputConfig
 import net.minecraft.util.MouseHelper
 
 class RawMouseHelper : MouseHelper() {
     init {
         RescanThread.start()
+        PollingThread.start()
     }
 
     override fun mouseXYChange() {
-        deltaX = 0
-        deltaY = 0
-
-        for (mouse in RescanThread.mouses) {
-            mouse.poll()
-            deltaX += mouse.x.pollData.toInt()
-            deltaY -= mouse.y.pollData.toInt()
+        if (RawInputConfig.enabled) {
+            deltaX = PollingThread.dx.toInt()
+            deltaY = PollingThread.dy.toInt()
+        } else {
+            super.mouseXYChange()
         }
     }
 }
