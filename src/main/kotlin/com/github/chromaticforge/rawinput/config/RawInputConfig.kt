@@ -5,6 +5,7 @@ import cc.polyfrost.oneconfig.config.annotations.Button
 import cc.polyfrost.oneconfig.config.annotations.Dropdown
 import cc.polyfrost.oneconfig.config.annotations.Info
 import cc.polyfrost.oneconfig.config.annotations.Slider
+import cc.polyfrost.oneconfig.config.annotations.Switch
 import cc.polyfrost.oneconfig.config.data.InfoType
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
@@ -21,6 +22,7 @@ object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/rawinpu
         addListener("mode") { RescanThread.rescan() }
         addListener("polling") { polling = polling.toInt().toFloat() }
 
+        hideIf("pollingRateWarnings") { polling <= 2000 }
         hideIf("unixWarning") { SystemUtils.IS_OS_WINDOWS }
     }
 
@@ -32,6 +34,7 @@ object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/rawinpu
     )
     private var unixWarning = false
 
+    // TODO: Look into bug where this doesn't actually rescan?
     @Button(
         name = "Rescan mouses",
         description = "Rescans for new input devices",
@@ -55,11 +58,24 @@ object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/rawinpu
     )
     var mode = 0
 
+    @Info(
+        text = "High polling rates may cause issues.",
+        type = InfoType.WARNING, size = 2, category = "Advanced"
+    )
+    private var pollingRateWarnings = false
+
     @Slider(
-        name = "Polling Rate",
+        name = "Polling rate",
         description = "How often the game polls for new mouse data.",
         min = 1f, max = 8000f,
         category = "Advanced"
     )
     var polling = 1000f
+
+    @Switch(
+        name = "Show rescans",
+        description = "Displays when the mod rescans in chat.",
+        category = "Advanced"
+    )
+    var debugRescan = false
 }

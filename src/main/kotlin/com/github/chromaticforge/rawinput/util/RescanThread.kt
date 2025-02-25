@@ -1,5 +1,6 @@
 package com.github.chromaticforge.rawinput.util
 
+import cc.polyfrost.oneconfig.libs.universal.UChat
 import com.github.chromaticforge.rawinput.config.RawInputConfig
 import net.java.games.input.ControllerEnvironment
 import net.java.games.input.Mouse
@@ -19,9 +20,7 @@ object RescanThread : Thread("Rescan") {
 
         outer@while (true) {
             for (mouse in mouses) {
-                if (PollingThread.dx == 0.0f && PollingThread.dy == 0.0f
-                    && abs(org.lwjgl.input.Mouse.getDX()) > 3 && abs(org.lwjgl.input.Mouse.getDY()) > 3)
-                {
+                if (shouldRescan()) {
                     if (++fails > 5) rescan()
                 } else {
                     fails = 0
@@ -51,5 +50,16 @@ object RescanThread : Thread("Rescan") {
             .getDeclaredConstructor().also { it.isAccessible = true }.newInstance() as ControllerEnvironment
 
         mouses = env.controllers.filterIsInstance<Mouse>()
+
+        if (RawInputConfig.debugRescan) {
+            UChat.chat("[Raw Input] Rescanning!")
+        }
+    }
+
+    private fun shouldRescan(): Boolean {
+        return PollingThread.prevDx == 0f &&
+                PollingThread.prevDy == 0f &&
+                abs(org.lwjgl.input.Mouse.getDX()) > 3 &&
+                abs(org.lwjgl.input.Mouse.getDY()) > 3
     }
 }

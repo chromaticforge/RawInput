@@ -9,17 +9,20 @@ object PollingThread : Thread("Polling") {
         isDaemon = true
     }
 
+    var prevDx = 0f
+    var prevDy = 0f
+
     var dx = 0f
         get() {
-            val temp = field
+            prevDx = field
             dx = 0f
-            return temp
+            return prevDx
         }
     var dy = 0f
         get() {
-            val temp = field
+            prevDy = field
             dy = 0f
-            return temp
+            return prevDy
         }
 
     override fun run() {
