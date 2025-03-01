@@ -54,28 +54,34 @@ object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/rawinpu
         name = "Input mode",
         options = ["Default", "Direct", "Raw", "Direct & Raw"],
         description = "Changes the input plugin",
-        category = "Advanced"
+        category = "Advanced", subcategory = "Input"
     )
     var mode = 0
 
     @Info(
         text = "High polling rates may cause issues.",
-        type = InfoType.WARNING, size = 2, category = "Advanced"
+        type = InfoType.WARNING, size = 2, category = "Advanced", subcategory = "Polling"
     )
     private var pollingRateWarnings = false
 
     @Slider(
         name = "Polling rate",
         description = "How often the game polls for new mouse data.",
-        min = 1f, max = 8000f,
-        category = "Advanced"
+        min = 1f, max = 8000f, category = "Advanced", subcategory = "Polling"
     )
     var polling = 1000f
 
     @Switch(
+        name = "Automatic rescan",
+        description = "Automatically rescans under select conditions",
+        category = "Advanced", subcategory = "Rescan"
+    )
+    var rescans = true
+
+    @Switch(
         name = "Show rescans",
         description = "Displays when the mod rescans in chat.",
-        category = "Advanced"
+        category = "Advanced", subcategory = "Rescan"
     )
     var debugRescan = false
 }

@@ -19,20 +19,20 @@ object RescanThread : Thread("Rescan") {
         var fails = 0
 
         outer@while (true) {
-            for (mouse in mouses) {
+            if (RawInputConfig.rescans) {
                 if (shouldRescan()) {
                     if (++fails > 5) rescan()
                 } else {
                     fails = 0
                 }
-            }
 
-            if (mouses.isEmpty()) {
-                rescan()
-                sleep(2500L)
-            }
+                if (mouses.isEmpty()) {
+                    rescan()
+                    sleep(2500L)
+                }
 
-            sleep(10L)
+                sleep(10L)
+            }
         }
     }
 
@@ -49,6 +49,7 @@ object RescanThread : Thread("Rescan") {
         val env = Class.forName("net.java.games.input.$plugin")
             .getDeclaredConstructor().also { it.isAccessible = true }.newInstance() as ControllerEnvironment
 
+        // TODO: Add trackpad support.
         mouses = env.controllers.filterIsInstance<Mouse>()
 
         if (RawInputConfig.debugRescan) {

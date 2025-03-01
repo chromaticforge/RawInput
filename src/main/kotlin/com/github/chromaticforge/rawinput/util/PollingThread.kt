@@ -36,8 +36,7 @@ object PollingThread : Thread("Polling") {
                 }
 
                 val polling = RawInputConfig.polling.toLong()
-                val ms = (1000L / polling)
-                val ns = ((1000L % polling) * 1000000L) / polling
+                val (ms, ns) = (1000L * 1000000L / polling).let { it / 1000000 to it % 1000000 }
                 sleep(ms, ns.toInt())
             }
         }
