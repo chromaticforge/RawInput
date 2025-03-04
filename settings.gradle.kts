@@ -19,7 +19,7 @@ rootProject.buildFileName = "root.gradle.kts"
 
 listOf(
     "1.8.9-forge",
-//    "1.12.2-forge" // Maybe later, it was really buggy when I tried it :(
+    "1.12.2-forge"
 ).forEach { version ->
     include(":$version")
     project(":$version").apply {

@@ -9,6 +9,12 @@ class RawMouseHelper : MouseHelper() {
         PollingThread.start()
     }
 
+    override fun grabMouseCursor() {
+        super.grabMouseCursor()
+        PollingThread.dx = 0f
+        PollingThread.dy = 0f
+    }
+
     override fun mouseXYChange() {
         if (RawInputConfig.enabled) {
             deltaX = PollingThread.dx.toInt()
