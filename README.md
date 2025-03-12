@@ -14,4 +14,4 @@ This mod is currently in a beta state, expect improvement in the future.
 
 ---
 
-##### Code licensed under [LGPL](LICENSE), Icon from [Font Awesome](https://fontawesome.com/).
+##### Code licensed under [LGPL](LICENSE).
