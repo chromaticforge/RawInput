@@ -17,8 +17,7 @@ plugins {
 
 val mod_name: String by project
 val mod_version: String by project
-val mod_id: String by project
-val mod_archives_name: String by project
+val mod_id = mod_name.lowercase()
 
 blossom {
     replaceToken("@VER@", mod_version)
@@ -27,10 +26,10 @@ blossom {
 }
 
 version = mod_version
-group = "com.github.chromaticforge.rawinput"
+group = "com.github.chromaticforge.$mod_id"
 
 base {
-    archivesName.set("$mod_archives_name-$platform")
+    archivesName.set("$mod_name-$platform")
 }
 
 loom {

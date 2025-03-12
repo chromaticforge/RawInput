@@ -14,8 +14,7 @@ import com.github.chromaticforge.rawinput.RawInputMod
 import com.github.chromaticforge.rawinput.util.RescanThread
 import org.apache.commons.lang3.SystemUtils
 
-
-object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/rawinput_dark.png"), "${RawInputMod.MODID}.json") {
+object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/rawinput_dark.svg"), "${RawInputMod.MODID}.json") {
     init {
         initialize()
 
@@ -34,7 +33,7 @@ object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/rawinpu
     )
     private var unixWarning = false
 
-    // TODO: Look into bug where this doesn't actually rescan?
+    // FIXME: Why doesn't work
     @Button(
         name = "Rescan mouses",
         description = "Rescans for new input devices",
