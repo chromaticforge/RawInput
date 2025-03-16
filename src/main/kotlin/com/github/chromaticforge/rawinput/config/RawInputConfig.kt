@@ -75,7 +75,7 @@ object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/rawinpu
         description = "Automatically rescans under select conditions",
         category = "Advanced", subcategory = "Rescan"
     )
-    var rescans = true
+    var rescans = false
 
     @Switch(
         name = "Show rescans",
