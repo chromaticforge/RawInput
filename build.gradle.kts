@@ -11,6 +11,7 @@ plugins {
     id("org.polyfrost.defaults.loom")
     id("com.github.johnrengelman.shadow")
     id("net.kyori.blossom") version "1.3.2"
+    id("com.modrinth.minotaur") version "2.+"
     id("signing")
     java
 }
@@ -161,5 +162,19 @@ tasks {
         dependsOn(shadowJar)
         archiveClassifier.set("")
         enabled = false
+    }
+
+    modrinth {
+        token.set(System.getenv("MODRINTH_TOKEN"))
+        projectId.set("rawinput")
+        versionType.set("release")
+        versionName.set("v$mod_version")
+        versionNumber.set(mod_version)
+        uploadFile.set(remapJar)
+        gameVersions.addAll(project.platform.mcVersionStr)
+        loaders.add(project.platform.loaderStr)
+        dependencies {
+            embedded.project("oneconfig")
+        }
     }
 }

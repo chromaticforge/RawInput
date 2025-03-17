@@ -12,6 +12,12 @@ class RawMouseHelper : MouseHelper() {
         rescan()
     }
 
+    override fun grabMouseCursor() {
+        // Poll each mouse to reset deltas.
+        mouses.forEach { it.poll() }
+        super.grabMouseCursor()
+    }
+
     override fun mouseXYChange() {
         if (RawInputConfig.enabled) {
             var movement = false
