@@ -14,18 +14,15 @@ class RawMouseHelper : MouseHelper() {
 
     override fun mouseXYChange() {
         if (RawInputConfig.enabled) {
-            this.deltaX = 0
-            this.deltaY = 0
-
             var movement = false
+            deltaX = 0
+            deltaY = 0
 
             for (mouse in mouses) {
                 mouse.poll()
-                val f = mouse.x.pollData
-                val f2 = mouse.y.pollData
-                deltaX += f.toInt()
-                deltaY -= f2.toInt()
-                movement = movement || (f2 != 0.0f || f != 0.0f)
+                deltaX += mouse.x.pollData.toInt()
+                deltaY -= mouse.y.pollData.toInt()
+                movement = movement || (deltaX != 0 || deltaY != 0)
             }
 
             if (!(abs(Mouse.getDX()) <= 5 && abs(Mouse.getDY()) <= 5 || movement)) {
