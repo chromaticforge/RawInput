@@ -2,7 +2,7 @@ package com.github.chromaticforge.rawinput.command
 
 import cc.polyfrost.oneconfig.utils.commands.annotations.Command
 import cc.polyfrost.oneconfig.utils.commands.annotations.Main
-import com.github.chromaticforge.rawinput.util.RescanThread
+import com.github.chromaticforge.rawinput.util.rescan
 
 @Command(
     value = "rescan",
@@ -11,6 +11,6 @@ import com.github.chromaticforge.rawinput.util.RescanThread
 object RescanCommand {
     @Main
     private fun main() {
-        RescanThread.rescan()
+        rescan()
     }
 }
