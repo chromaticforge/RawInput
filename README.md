@@ -1,16 +1,15 @@
+## Notice!
+I've moved back to Linux. (I use arch btw)
+
+Development has been halted _for now_. However if you run into issues, please [make an issue](https://github.com/chromaticforge/RawInput/issues/new)! :3
+
 ## Raw Input
 Directly handles input from the Mouse. It can help make inputs feel smoother and fix mouse jittering. Powered by Oneconfig.
-
-This mod is currently in a beta state, expect improvement in the future.
 
 ### Usage
 `/rescan` to rescan for new input devices.
 
 `/rawinput` to open oneconfig gui.
-
-### Features over other Raw Input mods.
-- automatically rescans
-- polling rate
 
 ---
 
