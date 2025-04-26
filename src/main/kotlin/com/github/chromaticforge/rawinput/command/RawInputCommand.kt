@@ -6,7 +6,7 @@ import com.github.chromaticforge.rawinput.RawInputMod
 import com.github.chromaticforge.rawinput.config.RawInputConfig
 
 @Command(
-    value = RawInputMod.MODID,
+    value = RawInputMod.ID,
     description = "Access the " + RawInputMod.NAME + " GUI."
 )
 object RawInputCommand {

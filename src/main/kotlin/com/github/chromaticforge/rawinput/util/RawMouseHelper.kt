@@ -1,5 +1,6 @@
 package com.github.chromaticforge.rawinput.util
 
+import com.github.chromaticforge.rawinput.RawInputMod.supported
 import com.github.chromaticforge.rawinput.config.RawInputConfig
 import net.minecraft.util.MouseHelper
 import org.lwjgl.input.Mouse
@@ -14,12 +15,13 @@ class RawMouseHelper : MouseHelper() {
 
     override fun grabMouseCursor() {
         // Poll each mouse to reset deltas.
-        mouses.forEach { it.poll() }
+        if (RawInputConfig.enabled) mouses.forEach { it.poll() }
+
         super.grabMouseCursor()
     }
 
     override fun mouseXYChange() {
-        if (RawInputConfig.enabled) {
+        if (RawInputConfig.enabled && supported) {
             var movement = false
             deltaX = 0
             deltaY = 0
@@ -39,6 +41,10 @@ class RawMouseHelper : MouseHelper() {
                 fails = 0
             }
         } else {
+            if (RawInputConfig.enabled) {
+                RawInputConfig.enabled = false
+            }
+
             super.mouseXYChange()
         }
     }
