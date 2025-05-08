@@ -26,8 +26,8 @@ object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/assets/
 
     // FIXME: Why doesn't work :(
     @Button(
-        name = "Rescan mouses",
-        description = "Rescans for new input devices",
+        name = "Rescan mice",
+        description = "Rescans for new mice",
         text = "Rescan"
     )
     var rescans = Runnable {

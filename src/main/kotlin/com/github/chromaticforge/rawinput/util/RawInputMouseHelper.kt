@@ -6,15 +6,15 @@ import net.minecraft.util.MouseHelper
 import org.lwjgl.input.Mouse
 import kotlin.math.abs
 
-class RawMouseHelper : MouseHelper() {
+class RawInputMouseHelper : MouseHelper() {
     private var fails = 0
 
     init {
         rescan()
+        RawInputThread.start()
     }
 
     override fun grabMouseCursor() {
-        // Poll each mouse to reset deltas.
         if (RawInputConfig.enabled) mouses.forEach { it.poll() }
 
         super.grabMouseCursor()
@@ -23,15 +23,11 @@ class RawMouseHelper : MouseHelper() {
     override fun mouseXYChange() {
         if (RawInputConfig.enabled && supported) {
             var movement = false
-            deltaX = 0
-            deltaY = 0
 
-            for (mouse in mouses) {
-                mouse.poll()
-                deltaX += mouse.x.pollData.toInt()
-                deltaY -= mouse.y.pollData.toInt()
-                movement = movement || (deltaX != 0 || deltaY != 0)
-            }
+            deltaX = RawInputThread.dx
+            deltaY = RawInputThread.dy
+
+            movement = movement || (deltaX != 0 || deltaY != 0)
 
             if (!(abs(Mouse.getDX()) <= 5 && abs(Mouse.getDY()) <= 5 || movement)) {
                 if (fails++ > 5) {

@@ -8,14 +8,18 @@ import net.java.games.input.Mouse
 var mouses: List<Mouse> = emptyList()
 
 fun rescan() {
-    mouses = emptyList()
+    if (RawInputConfig.debugRescan) {
+        UChat.chat("[Raw Input] Rescanning!")
+    }
 
     val env = Class.forName("net.java.games.input.DefaultControllerEnvironment")
         .getDeclaredConstructor().also { it.isAccessible = true }.newInstance() as ControllerEnvironment
 
     mouses = env.controllers.filterIsInstance<Mouse>()
 
-    if (RawInputConfig.debugRescan) {
-        UChat.chat("[Raw Input] Rescanning!")
+    mouses.forEach {
+        it.let {
+            UChat.chat("[Raw Input] Found $it")
+        }
     }
 }

@@ -27,14 +27,9 @@ dependencies {
 
     shade("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta17")
     implementation("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta17")
-
-    compileOnly("org.spongepowered:mixin:0.7.11-SNAPSHOT")
 }
 
 toolkitLoomHelper {
-    useMixinRefMap(modData.id)
-    useForgeMixin(modData.id)
-
     useTweaker("cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker")
 
     // Disable run configs because the mod doesn't work in a dev env.

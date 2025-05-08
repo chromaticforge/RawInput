@@ -10,7 +10,7 @@ import com.github.chromaticforge.rawinput.util.rescan
 )
 object RescanCommand {
     @Main
-    private fun main() {
+    fun main() {
         rescan()
     }
 }
