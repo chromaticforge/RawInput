@@ -2,6 +2,7 @@ package com.github.chromaticforge.rawinput.config
 
 import cc.polyfrost.oneconfig.config.Config
 import cc.polyfrost.oneconfig.config.annotations.Button
+import cc.polyfrost.oneconfig.config.annotations.Dropdown
 import cc.polyfrost.oneconfig.config.annotations.Info
 import cc.polyfrost.oneconfig.config.annotations.Switch
 import cc.polyfrost.oneconfig.config.data.InfoType
@@ -30,7 +31,7 @@ object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/assets/
         description = "Rescans for new mice",
         text = "Rescan"
     )
-    var rescans = Runnable {
+    var rescans = {
         rescan()
     }
 
@@ -39,4 +40,11 @@ object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/assets/
         description = "Displays when the mod rescans in chat.",
     )
     var debugRescan = false
+
+    @Dropdown(
+        name = "Input Environment",
+        description = "",
+        options = ["Direct & Raw", "Direct", "Default"]
+    )
+    var environment = 2
 }

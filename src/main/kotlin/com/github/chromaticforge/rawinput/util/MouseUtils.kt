@@ -12,7 +12,13 @@ fun rescan() {
         UChat.chat("[Raw Input] Rescanning!")
     }
 
-    val env = Class.forName("net.java.games.input.DefaultControllerEnvironment")
+    val environment = when(RawInputConfig.environment) {
+        0 -> "DirectAndRawInputEnvironmentPlugin"
+        1 -> "DirectInputEnvironmentPlugin"
+        else -> "DefaultControllerEnvironment"
+    }
+
+    val env = Class.forName("net.java.games.input.$environment")
         .getDeclaredConstructor().also { it.isAccessible = true }.newInstance() as ControllerEnvironment
 
     mouses = env.controllers.filterIsInstance<Mouse>()
