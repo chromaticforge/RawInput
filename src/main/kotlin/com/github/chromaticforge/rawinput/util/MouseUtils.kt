@@ -5,6 +5,12 @@ import com.github.chromaticforge.rawinput.config.RawInputConfig
 import net.java.games.input.ControllerEnvironment
 import net.java.games.input.Mouse
 
+val rawSupported = (Class.forName("net.java.games.input.DirectAndRawInputEnvironmentPlugin")
+    .getDeclaredConstructor().also { it.isAccessible = true }.newInstance() as ControllerEnvironment).isSupported
+
+val directSupported = (Class.forName("net.java.games.input.DirectInputEnvironmentPlugin")
+    .getDeclaredConstructor().also { it.isAccessible = true }.newInstance() as ControllerEnvironment).isSupported
+
 var mouses: List<Mouse> = emptyList()
 
 fun rescan() {

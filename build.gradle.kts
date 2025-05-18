@@ -33,7 +33,6 @@ toolkitLoomHelper {
     useTweaker("cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker")
 
     // Disable run configs because the mod doesn't work in a dev env.
-    disableRunConfigs(GameSide.CLIENT)
     disableRunConfigs(GameSide.SERVER)
 }
 

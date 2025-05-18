@@ -1,8 +1,8 @@
 package com.github.chromaticforge.rawinput.util
 
-import com.github.chromaticforge.rawinput.RawInputMod.supported
 import com.github.chromaticforge.rawinput.config.RawInputConfig
 import net.minecraft.util.MouseHelper
+import org.apache.commons.lang3.SystemUtils
 import org.lwjgl.input.Mouse
 import kotlin.math.abs
 
@@ -21,7 +21,7 @@ class RawInputMouseHelper : MouseHelper() {
     }
 
     override fun mouseXYChange() {
-        if (RawInputConfig.enabled && supported) {
+        if (RawInputConfig.enabled && SystemUtils.IS_OS_WINDOWS) {
             var movement = false
 
             deltaX = RawInputThread.dx
