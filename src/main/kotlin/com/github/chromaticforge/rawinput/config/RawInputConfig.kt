@@ -8,10 +8,10 @@ import cc.polyfrost.oneconfig.config.annotations.Switch
 import cc.polyfrost.oneconfig.config.data.InfoType
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
+import cc.polyfrost.oneconfig.utils.Notifications
 import com.github.chromaticforge.rawinput.RawInputMod
-import com.github.chromaticforge.rawinput.util.directSupported
-import com.github.chromaticforge.rawinput.util.rawSupported
-import com.github.chromaticforge.rawinput.util.rescan
+import com.github.chromaticforge.rawinput.util.MouseUtils
+import kotlinx.serialization.builtins.NothingSerializer
 import org.apache.commons.lang3.SystemUtils
 
 object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/assets/rawinput/icon.svg"), "${RawInputMod.ID}.json") {
@@ -26,7 +26,7 @@ object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/assets/
         description = "Rescans for new mice.",
         text = "Rescan"
     )
-    var rescanButton = Runnable { rescan() }
+    var rescanButton = Runnable { MouseUtils.rescan() }
 
     @Switch(
         name = "Show rescans",
@@ -34,24 +34,12 @@ object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/assets/
     )
     var debugRescan = false
 
-    @Info(
-        text = "Raw input is not supported, try using the Direct Input Environment or disabling this mod.",
-        type = InfoType.ERROR, category = "Advanced", size = 2
-    )
-    private var rawError = false
-
-    @Info(
-        text = "Direct input is not supported, try using the Default Input Environment or disabling this mod.",
-        type = InfoType.ERROR, category = "Advanced", size = 2
-    )
-    private var directError = false
-
     @Dropdown(
-        name = "Input Environment", options = ["Direct & Raw", "Direct", "Default"],
+        name = "Input Environment", options = ["Direct & Raw", "Direct"],
         description = "The Input Environment plugin used.",
         category = "Advanced"
     )
-    var environment = 2
+    var environment = 0
 
     init {
         initialize()
@@ -62,8 +50,12 @@ object RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/assets/
         hideIf("debugRescan") { !SystemUtils.IS_OS_WINDOWS }
         hideIf("environment") { !SystemUtils.IS_OS_WINDOWS }
 
-
-        hideIf("directError") { environment != 1 || directSupported }
-        hideIf("rawError") { environment != 0 || rawSupported }
+        addListener("environment") {
+            if (!MouseUtils.supported())
+                Notifications.INSTANCE.send(
+                    "Raw Input",
+                    "Your system does not support this input environment."
+                )
+        }
     }
 }

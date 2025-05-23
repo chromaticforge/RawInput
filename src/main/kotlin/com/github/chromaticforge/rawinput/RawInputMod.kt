@@ -1,12 +1,11 @@
 package com.github.chromaticforge.rawinput
 
 import cc.polyfrost.oneconfig.utils.commands.CommandManager
-import cc.polyfrost.oneconfig.utils.dsl.mc
 import com.github.chromaticforge.rawinput.command.RawInputCommand
 import com.github.chromaticforge.rawinput.command.RescanCommand
 import com.github.chromaticforge.rawinput.config.RawInputConfig
-import com.github.chromaticforge.rawinput.util.RawInputMouseHelper
-import net.java.games.input.DirectAndRawInputEnvironmentPlugin
+import com.github.chromaticforge.rawinput.impl.RawInputMouseHelper
+import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 
@@ -21,14 +20,12 @@ object RawInputMod {
     const val NAME = "@MOD_NAME@"
     const val VERSION = "@MOD_VERSION@"
 
-    val supported = DirectAndRawInputEnvironmentPlugin.getDefaultEnvironment().isSupported
-
     @Mod.EventHandler
     fun onFMLInitialization(event: FMLInitializationEvent) {
         RawInputConfig
         CommandManager.INSTANCE.registerCommand(RawInputCommand)
         CommandManager.INSTANCE.registerCommand(RescanCommand)
 
-        mc.mouseHelper = RawInputMouseHelper()
+        Minecraft.getMinecraft().mouseHelper = RawInputMouseHelper()
     }
 }

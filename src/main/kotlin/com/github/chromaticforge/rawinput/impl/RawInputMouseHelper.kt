@@ -1,6 +1,7 @@
-package com.github.chromaticforge.rawinput.util
+package com.github.chromaticforge.rawinput.impl
 
 import com.github.chromaticforge.rawinput.config.RawInputConfig
+import com.github.chromaticforge.rawinput.util.MouseUtils
 import net.minecraft.util.MouseHelper
 import org.apache.commons.lang3.SystemUtils
 import org.lwjgl.input.Mouse
@@ -10,18 +11,12 @@ class RawInputMouseHelper : MouseHelper() {
     private var fails = 0
 
     init {
-        rescan()
+        MouseUtils.rescan()
         RawInputThread.start()
     }
 
-    override fun grabMouseCursor() {
-        if (RawInputConfig.enabled) mouses.forEach { it.poll() }
-
-        super.grabMouseCursor()
-    }
-
     override fun mouseXYChange() {
-        if (RawInputConfig.enabled && SystemUtils.IS_OS_WINDOWS) {
+        if (RawInputConfig.enabled && MouseUtils.supported() && SystemUtils.IS_OS_WINDOWS && MouseUtils.mice.isNotEmpty()) {
             var movement = false
 
             deltaX = RawInputThread.dx
@@ -31,13 +26,13 @@ class RawInputMouseHelper : MouseHelper() {
 
             if (!(abs(Mouse.getDX()) <= 5 && abs(Mouse.getDY()) <= 5 || movement)) {
                 if (fails++ > 5) {
-                    rescan()
+                    MouseUtils.rescan()
                 }
             } else if (movement) {
                 fails = 0
             }
         } else {
-            if (RawInputConfig.enabled) {
+            if (RawInputConfig.enabled && !MouseUtils.supported()) {
                 RawInputConfig.enabled = false
             }
 

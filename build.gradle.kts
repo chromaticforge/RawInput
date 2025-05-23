@@ -32,12 +32,13 @@ dependencies {
 toolkitLoomHelper {
     useTweaker("cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker")
 
-    // Disable run configs because the mod doesn't work in a dev env.
-    disableRunConfigs(GameSide.SERVER)
+    // The mod doesn't work in a dev env.
+    // Raw / Direct natives arent loaded.
+    disableRunConfigs(GameSide.BOTH)
 }
 
 toolkitReleases {
-    versionType = VersionType.RELEASE
+    versionType = VersionType.BETA
 
     val changelog = rootProject.file("changelogs/${modData.version}.md")
 

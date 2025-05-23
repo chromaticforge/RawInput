@@ -1,6 +1,8 @@
-package com.github.chromaticforge.rawinput.util
+package com.github.chromaticforge.rawinput.impl
 
 import com.github.chromaticforge.rawinput.config.RawInputConfig
+import com.github.chromaticforge.rawinput.util.MouseUtils
+import org.lwjgl.input.Mouse
 
 object RawInputThread : Thread("RawInput") {
     init {
@@ -23,9 +25,9 @@ object RawInputThread : Thread("RawInput") {
 
     override fun run() {
         while (true) {
-            if (RawInputConfig.enabled) {
-                mouses.forEach {
-                    if (!it.poll()) rescan()
+            if (RawInputConfig.enabled && Mouse.isGrabbed()) {
+                MouseUtils.mice.forEach {
+                    if (!it.poll()) MouseUtils.rescan()
 
                     dx += it.x.pollData.toInt()
                     dy -= it.y.pollData.toInt()
