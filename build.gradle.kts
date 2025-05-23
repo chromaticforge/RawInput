@@ -38,7 +38,7 @@ toolkitLoomHelper {
 }
 
 toolkitReleases {
-    versionType = VersionType.BETA
+    versionType = VersionType.RELEASE
 
     val changelog = rootProject.file("changelogs/${modData.version}.md")
 
