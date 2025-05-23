@@ -5,6 +5,7 @@ import com.github.chromaticforge.rawinput.command.RawInputCommand
 import com.github.chromaticforge.rawinput.command.RescanCommand
 import com.github.chromaticforge.rawinput.config.RawInputConfig
 import com.github.chromaticforge.rawinput.impl.RawInputMouseHelper
+import com.github.chromaticforge.rawinput.util.LibraryChecker
 import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
@@ -20,12 +21,28 @@ object RawInputMod {
     const val NAME = "@MOD_NAME@"
     const val VERSION = "@MOD_VERSION@"
 
+    lateinit var config: RawInputConfig
+
+    var environment: String = ""
+
     @Mod.EventHandler
     fun onFMLInitialization(event: FMLInitializationEvent) {
-        RawInputConfig
-        CommandManager.INSTANCE.registerCommand(RawInputCommand)
-        CommandManager.INSTANCE.registerCommand(RescanCommand)
+        val direct = LibraryChecker.isLibraryLoaded("jinput-dx8")
+        val raw = LibraryChecker.isLibraryLoaded("jinput-raw")
 
-        Minecraft.getMinecraft().mouseHelper = RawInputMouseHelper()
+        if (raw || direct) {
+            environment = if (direct && !raw) {
+                "DirectInputEnvironmentPlugin"
+            } else {
+                "DirectAndRawInputEnvironmentPlugin"
+            }
+
+            config = RawInputConfig()
+
+            CommandManager.INSTANCE.registerCommand(RawInputCommand)
+            CommandManager.INSTANCE.registerCommand(RescanCommand)
+
+            Minecraft.getMinecraft().mouseHelper = RawInputMouseHelper()
+        }
     }
 }

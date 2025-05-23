@@ -4,8 +4,7 @@ import cc.polyfrost.oneconfig.utils.commands.annotations.Command
 import cc.polyfrost.oneconfig.utils.commands.annotations.Main
 import cc.polyfrost.oneconfig.utils.commands.annotations.SubCommand
 import com.github.chromaticforge.rawinput.RawInputMod
-import com.github.chromaticforge.rawinput.config.RawInputConfig
-import com.github.chromaticforge.rawinput.util.MouseUtils
+import com.github.chromaticforge.rawinput.impl.RawInputThread
 
 @Command(
     value = RawInputMod.ID,
@@ -14,11 +13,11 @@ import com.github.chromaticforge.rawinput.util.MouseUtils
 object RawInputCommand {
     @Main
     fun main() {
-        RawInputConfig.openGui()
+        RawInputMod.config.openGui()
     }
 
     @SubCommand(description = "Rescans for new mouses.")
     fun rescan() {
-        MouseUtils.rescan()
+        RawInputThread.rescan()
     }
 }

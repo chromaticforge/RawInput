@@ -33,7 +33,7 @@ toolkitLoomHelper {
     useTweaker("cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker")
 
     // The mod doesn't work in a dev env.
-    // Raw / Direct natives arent loaded.
+    // Raw / Direct natives aren't loaded.
     disableRunConfigs(GameSide.BOTH)
 }
 

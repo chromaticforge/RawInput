@@ -2,7 +2,7 @@ package com.github.chromaticforge.rawinput.command
 
 import cc.polyfrost.oneconfig.utils.commands.annotations.Command
 import cc.polyfrost.oneconfig.utils.commands.annotations.Main
-import com.github.chromaticforge.rawinput.util.MouseUtils
+import com.github.chromaticforge.rawinput.impl.RawInputThread
 
 @Command(
     value = "rescan",
@@ -11,6 +11,6 @@ import com.github.chromaticforge.rawinput.util.MouseUtils
 object RescanCommand {
     @Main
     fun main() {
-        MouseUtils.rescan()
+        RawInputThread.rescan()
     }
 }
