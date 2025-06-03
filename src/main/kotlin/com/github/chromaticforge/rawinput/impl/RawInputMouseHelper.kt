@@ -18,11 +18,15 @@ class RawInputMouseHelper : MouseHelper() {
     }
 
     override fun mouseXYChange() {
-        if (RawInputMod.config.enabled && RawInputThread.mice.isNotEmpty()) {
+        if (!RawInputThread.isAlive) {
+            RawInputThread.start()
+        }
+
+        if (RawInputMod.config.enabled && RawInputThread.mice.isNotEmpty() && RawInputThread.isAlive) {
             var movement = false
 
-            deltaX = RawInputThread.dx.get()
-            deltaY = RawInputThread.dy.get()
+            deltaX = RawInputThread.dx.getAndSet(0)
+            deltaY = RawInputThread.dy.getAndSet(0)
 
             movement = movement || (deltaX != 0 || deltaY != 0)
 

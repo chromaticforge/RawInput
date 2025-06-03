@@ -6,6 +6,7 @@ import com.github.chromaticforge.rawinput.command.RescanCommand
 import com.github.chromaticforge.rawinput.config.RawInputConfig
 import com.github.chromaticforge.rawinput.impl.RawInputMouseHelper
 import com.github.chromaticforge.rawinput.util.LibraryChecker
+import net.java.games.input.DirectAndRawInputEnvironmentPlugin
 import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
