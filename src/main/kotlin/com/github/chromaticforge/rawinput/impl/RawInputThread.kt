@@ -17,6 +17,8 @@ object RawInputThread : Thread("Raw Mouse Input") {
     var mice: List<Mouse> = emptyList()
 
     override fun run() {
+        rescan()
+
         while (true) {
             if (RawInputMod.config.enabled) {
                 mice.forEach {
