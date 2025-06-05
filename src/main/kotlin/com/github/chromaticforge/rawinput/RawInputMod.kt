@@ -1,5 +1,6 @@
 package com.github.chromaticforge.rawinput
 
+import cc.polyfrost.oneconfig.utils.Notifications
 import cc.polyfrost.oneconfig.utils.commands.CommandManager
 import com.github.chromaticforge.rawinput.command.RawInputCommand
 import com.github.chromaticforge.rawinput.command.RescanCommand
@@ -44,6 +45,8 @@ object RawInputMod {
             CommandManager.INSTANCE.registerCommand(RescanCommand)
 
             Minecraft.getMinecraft().mouseHelper = RawInputMouseHelper()
+        } else {
+            Notifications.INSTANCE.send("Raw Input", "Your system does not support Raw Input. Feel free to remove this mod!")
         }
     }
 }

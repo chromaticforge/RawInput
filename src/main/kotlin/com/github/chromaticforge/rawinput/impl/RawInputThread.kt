@@ -29,6 +29,8 @@ object RawInputThread : Thread("Raw Mouse Input") {
                 }
 
                 sleep(1)
+            } else {
+                sleep(50)
             }
         }
     }
