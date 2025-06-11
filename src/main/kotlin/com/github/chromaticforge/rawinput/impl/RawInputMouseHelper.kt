@@ -1,34 +1,33 @@
 package com.github.chromaticforge.rawinput.impl
 
-import com.github.chromaticforge.rawinput.RawInputMod
-import net.minecraft.util.MouseHelper
+import net.minecraft.client.MouseInput
 import org.lwjgl.input.Mouse
 import kotlin.math.abs
 
-class RawInputMouseHelper : MouseHelper() {
+class RawInputMouseHelper : MouseInput() {
     private var fails = 0
 
     init {
         RawInputThread.start()
     }
 
-    override fun grabMouseCursor() {
+    override fun lockMouse() {
         RawInputThread.reset()
-        super.grabMouseCursor()
+        super.lockMouse()
     }
 
-    override fun mouseXYChange() {
+    override fun updateMouse() {
         if (!RawInputThread.isAlive) {
             RawInputThread.start()
         }
 
-        if (RawInputMod.config.enabled && RawInputThread.mice.isNotEmpty() && RawInputThread.isAlive) {
+        if (RawInputThread.mice.isNotEmpty() && RawInputThread.isAlive) {
             var movement = false
 
-            deltaX = RawInputThread.dx.getAndSet(0)
-            deltaY = RawInputThread.dy.getAndSet(0)
+            x = RawInputThread.dx.getAndSet(0)
+            y = RawInputThread.dy.getAndSet(0)
 
-            movement = movement || (deltaX != 0 || deltaY != 0)
+            movement = movement || (x != 0 || y != 0)
 
             if (!(abs(Mouse.getDX()) <= 5 && abs(Mouse.getDY()) <= 5 || movement)) {
                 if (fails++ > 5) {
@@ -38,7 +37,7 @@ class RawInputMouseHelper : MouseHelper() {
                 fails = 0
             }
         } else {
-            super.mouseXYChange()
+            super.updateMouse()
         }
     }
 }

@@ -17,28 +17,14 @@ plugins {
     id("dev.deftu.gradle.tools.minecraft.releases")
 }
 
-repositories {
-    maven("https://repo.polyfrost.org/releases")
-    maven("https://repo.polyfrost.org/snapshots")
-}
-
-dependencies {
-    compileOnly("cc.polyfrost:oneconfig-1.8.9-forge:0.2.2-alpha+")
-
-    shade("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta17")
-    implementation("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta17")
-}
-
 toolkitLoomHelper {
-    useTweaker("cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker")
-
-    // The mod doesn't work in a dev env.
+    // The mod doesn't work in a dev environment.
     // Raw / Direct natives aren't loaded.
     disableRunConfigs(GameSide.BOTH)
 }
 
 toolkitReleases {
-    versionType = VersionType.RELEASE
+    versionType = VersionType.BETA
 
     val changelog = rootProject.file("changelogs/${modData.version}.md")
 
@@ -48,6 +34,8 @@ toolkitReleases {
 
     modrinth {
         projectId.set("rawinput")
-        dependencies.add(ModDependency("oneconfig", DependencyType.EMBEDDED))
+        dependencies.add(
+            ModDependency("fabric-language-kotlin", DependencyType.REQUIRED)
+        )
     }
 }
