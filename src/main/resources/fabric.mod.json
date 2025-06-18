@@ -5,7 +5,7 @@
   "name": "Example Mod",
   "description": "Directly handles input from the Mouse.",
   "authors": [
-    "chromaticforge", "femmeromantic"
+    "chromaticforge", "awruff"
   ],
   "contact": {
     "sources": "https://github.com/chromaticforge/RawInput"
