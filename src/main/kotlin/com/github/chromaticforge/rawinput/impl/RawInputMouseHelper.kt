@@ -18,7 +18,7 @@ class RawInputMouseHelper : MouseHelper() {
     }
 
     override fun mouseXYChange() {
-        if (!RawInputThread.isAlive) {
+        if (RawInputThread.state == Thread.State.NEW) {
             RawInputThread.start()
         }
 
