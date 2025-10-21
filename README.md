@@ -27,4 +27,4 @@ Prevents OS-Level Processing. Powered by Oneconfig.
 
 ---
 
-###### Code licensed under [LGPL](LICENSE).
+###### Code licensed under [GPL 3.0](LICENSE).
