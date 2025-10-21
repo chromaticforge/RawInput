@@ -8,7 +8,7 @@ import cc.polyfrost.oneconfig.config.data.ModType
 import com.github.chromaticforge.rawinput.RawInputMod
 import com.github.chromaticforge.rawinput.impl.RawInputThread
 
-class RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/assets/rawinput/icon.svg"), "${RawInputMod.ID}.json") {
+class RawInputConfig : Config(Mod(RawInputMod.NAME, ModType.UTIL_QOL, "/assets/rawinput/icon.png"), "${RawInputMod.ID}.json") {
     @Button(
         name = "Rescan mice",
         description = "Rescans for new mice.",

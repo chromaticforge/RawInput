@@ -2,13 +2,13 @@ package com.github.chromaticforge.rawinput
 
 import cc.polyfrost.oneconfig.utils.Notifications
 import cc.polyfrost.oneconfig.utils.commands.CommandManager
+import cc.polyfrost.oneconfig.utils.dsl.mc
 import com.github.chromaticforge.rawinput.command.RawInputCommand
 import com.github.chromaticforge.rawinput.command.RescanCommand
 import com.github.chromaticforge.rawinput.config.RawInputConfig
 import com.github.chromaticforge.rawinput.impl.RawInputMouseHelper
+import com.github.chromaticforge.rawinput.util.EnvironmentFactory
 import com.github.chromaticforge.rawinput.util.LibraryChecker
-import net.java.games.input.DirectAndRawInputEnvironmentPlugin
-import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 
@@ -25,28 +25,36 @@ object RawInputMod {
 
     lateinit var config: RawInputConfig
 
-    var environment: String = ""
+    lateinit var environment: String
 
     @Mod.EventHandler
     fun onFMLInitialization(event: FMLInitializationEvent) {
-        val direct = LibraryChecker.isLibraryLoaded("jinput-dx8")
-        val raw = LibraryChecker.isLibraryLoaded("jinput-raw")
+        val isDirectInputAvailable = LibraryChecker.isLibraryLoaded("jinput-dx8")
+        val isRawInputAvailable = LibraryChecker.isLibraryLoaded("jinput-raw")
 
-        if (raw || direct) {
-            environment = if (direct && !raw) {
-                "DirectInputEnvironmentPlugin"
-            } else {
-                "DirectAndRawInputEnvironmentPlugin"
-            }
-
-            config = RawInputConfig()
-
-            CommandManager.INSTANCE.registerCommand(RawInputCommand)
-            CommandManager.INSTANCE.registerCommand(RescanCommand)
-
-            Minecraft.getMinecraft().mouseHelper = RawInputMouseHelper()
+        if (isDirectInputAvailable || isRawInputAvailable) {
+            setupRawInputEnvironment(isDirectInputAvailable, isRawInputAvailable)
         } else {
-            Notifications.INSTANCE.send("Raw Input", "Your system does not support Raw Input. Feel free to remove this mod!")
+            Notifications.INSTANCE.send(
+                NAME,
+                "Raw Input is not supported on your system. You can safely remove this mod."
+            )
         }
+    }
+
+    private fun setupRawInputEnvironment(direct: Boolean, raw: Boolean) {
+        environment = when {
+            direct && !raw -> "DirectInputEnvironmentPlugin"
+            else -> "DirectAndRawInputEnvironmentPlugin"
+        }
+
+        config = RawInputConfig()
+
+        CommandManager.INSTANCE.registerCommand(RawInputCommand)
+        CommandManager.INSTANCE.registerCommand(RescanCommand)
+
+        EnvironmentFactory.initialize(environment)
+
+        mc.mouseHelper = RawInputMouseHelper()
     }
 }

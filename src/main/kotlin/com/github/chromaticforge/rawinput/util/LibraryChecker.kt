@@ -1,17 +1,17 @@
 package com.github.chromaticforge.rawinput.util
 
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 
 object LibraryChecker {
-    fun isLibraryLoaded(name: String): Boolean {
-        return try {
-            System.getProperty("java.library.path")?.let { path ->
-                val mapped = System.mapLibraryName(name)
-                path.split(File.pathSeparator ?: ";")
-                    .any { libPath -> File(libPath, mapped).exists() }
-            } ?: false
-        } catch (_: Exception) {
-            false
-        }
-    }
+    fun isLibraryLoaded(name: String): Boolean = runCatching {
+        val libraryPath = System.getProperty("java.library.path") ?: return false
+        val mappedName = System.mapLibraryName(name)
+
+        libraryPath.split(File.pathSeparator)
+            .any { dir ->
+                Files.exists(Paths.get(dir, mappedName))
+            }
+    }.getOrDefault(false)
 }

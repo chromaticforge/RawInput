@@ -6,7 +6,7 @@
     "version": "${mod_version}",
     "mcversion": "${mc_version}",
     "url": "https://modrinth.com/project/rawinput",
-    "logoFile": "rawinput.png",
+    "logoFile": "logo.png",
     "authorList": [
       "chromaticforge", "awruff"
     ]

@@ -2,11 +2,13 @@
 
 import com.modrinth.minotaur.dependencies.DependencyType
 import com.modrinth.minotaur.dependencies.ModDependency
+import dev.deftu.gradle.tools.minecraft.CurseRelation
+import dev.deftu.gradle.tools.minecraft.CurseRelationType
 import dev.deftu.gradle.utils.GameSide
 import dev.deftu.gradle.utils.VersionType
 
 plugins {
-    java
+    id("java")
     kotlin("jvm")
     id("dev.deftu.gradle.multiversion")
     id("dev.deftu.gradle.tools")
@@ -49,5 +51,10 @@ toolkitReleases {
     modrinth {
         projectId.set("rawinput")
         dependencies.add(ModDependency("oneconfig", DependencyType.EMBEDDED))
+    }
+
+    curseforge {
+        projectId.set("1218174")
+        relations.add(CurseRelation("oneconfig", CurseRelationType.EMBEDDED))
     }
 }

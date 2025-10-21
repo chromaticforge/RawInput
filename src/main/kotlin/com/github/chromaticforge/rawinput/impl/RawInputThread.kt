@@ -2,11 +2,11 @@ package com.github.chromaticforge.rawinput.impl
 
 import cc.polyfrost.oneconfig.utils.Notifications
 import com.github.chromaticforge.rawinput.RawInputMod
-import net.java.games.input.ControllerEnvironment
+import com.github.chromaticforge.rawinput.util.EnvironmentFactory
 import net.java.games.input.Mouse
 import java.util.concurrent.atomic.AtomicInteger
 
-object RawInputThread : Thread("Raw Mouse Input") {
+object RawInputThread : Thread("Polling Thread") {
     init {
         isDaemon = true
     }
@@ -21,7 +21,7 @@ object RawInputThread : Thread("Raw Mouse Input") {
 
         while (true) {
             if (RawInputMod.config.enabled) {
-                mice.forEach {
+                mice.parallelStream().forEach {
                     if (!it.poll()) rescan()
 
                     dx.addAndGet(it.x.pollData.toInt())
@@ -36,10 +36,7 @@ object RawInputThread : Thread("Raw Mouse Input") {
     }
 
     fun rescan() {
-        val env = Class.forName("net.java.games.input.${RawInputMod.environment}")
-            .getDeclaredConstructor().also { it.isAccessible = true }.newInstance() as ControllerEnvironment
-
-        mice = env.controllers.filterIsInstance<Mouse>()
+        mice = EnvironmentFactory.newInstance().controllers.filterIsInstance<Mouse>()
 
         if (RawInputMod.config.debugRescan && mice.isNotEmpty()) {
             Notifications.INSTANCE.send(
