@@ -1,7 +1,3 @@
-<a href="https://github.com/chromaticforge/rawinput" target="_blank">
-  <img alt="kofi-singular-alt" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/github_vector.svg">
-</a>
-
 <a href="https://modrinth.com/mod/rawinput" target="_blank" rel="nofollow">
   <img alt="modrinth" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg">
 </a>
@@ -14,6 +10,11 @@
     <img alt="oneconfig" height="56" src="https://polyfrost.org/media/branding/badges/badge_1.svg">
 </a>
 
+<a href="https://discord.gg/gGuQ55PCRn" target="_blank">
+    <img alt="discord" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg">
+</a>
+
+
 --- 
 
 ## Raw Input
@@ -25,7 +26,7 @@ Directly processes mouse input for improved precision. Powered by OneConfig.
 - Safely disables on unsupported systems.
 
 ### Usage
-`/rawinput` to open oneconfig gui.
+`/rawinput` to open OneConfig UI.
 
 `/rawinput rescan` to rescan for new mice.
 
