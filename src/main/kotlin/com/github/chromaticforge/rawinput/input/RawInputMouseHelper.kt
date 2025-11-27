@@ -22,8 +22,10 @@ class RawInputMouseHelper : MouseHelper() {
             val drained = mutableListOf<Pair<Int, Int>>()
             RawInputPoller.buffer.drainTo(drained)
 
-            deltaX = drained.sumOf { it.first }
-            deltaY = drained.sumOf { it.second }
+            drained.forEach {
+                deltaX += it.first
+                deltaY += it.second
+            }
 
             tryRescan(
                 deltaX != 0 || deltaY != 0,
