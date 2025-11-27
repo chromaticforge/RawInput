@@ -4,28 +4,43 @@ import cc.polyfrost.oneconfig.utils.Notifications
 import com.github.chromaticforge.rawinput.RawInputMod
 import com.github.chromaticforge.rawinput.util.EnvironmentFactory
 import net.java.games.input.Mouse
-import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.BlockingQueue
+import java.util.concurrent.LinkedBlockingQueue
 
 object RawInputThread : Thread("Polling Thread") {
     init {
         isDaemon = true
     }
 
-    val dx: AtomicInteger = AtomicInteger(0)
-    val dy: AtomicInteger = AtomicInteger(0)
+    // this capacity is random, it's kinda just to avoid (extra) lag if your game freezes
+    val buffer: BlockingQueue<Pair<Int, Int>> = LinkedBlockingQueue(2048)
+
+    var shouldRescan = true
 
     var mice: List<Mouse> = emptyList()
 
     override fun run() {
-        rescan()
-
         while (true) {
             if (RawInputMod.config.enabled) {
-                mice.parallelStream().forEach {
-                    if (!it.poll()) rescan()
+                if (shouldRescan) {
+                    shouldRescan = false
 
-                    dx.addAndGet(it.x.pollData.toInt())
-                    dy.addAndGet(-it.y.pollData.toInt())
+                    mice = EnvironmentFactory.newInstance().controllers.filterIsInstance<Mouse>()
+
+                    if (RawInputMod.config.debugRescan && mice.isNotEmpty()) {
+                        Notifications.INSTANCE.send(
+                            "Raw Input",
+                            "Found ${mice.size} ${if (mice.size == 1) "mouse" else "mice"}."
+                        )
+                    }
+                }
+
+                mice.forEach {
+                    if (!it.poll()) rescan()
+                    val dx = it.x.pollData.toInt()
+                    val dy = -it.y.pollData.toInt()
+
+                    buffer.offer(dx to dy)
                 }
 
                 sleep(1)
@@ -36,18 +51,10 @@ object RawInputThread : Thread("Polling Thread") {
     }
 
     fun rescan() {
-        mice = EnvironmentFactory.newInstance().controllers.filterIsInstance<Mouse>()
-
-        if (RawInputMod.config.debugRescan && mice.isNotEmpty()) {
-            Notifications.INSTANCE.send(
-                "Raw Input",
-                "Found ${mice.size} ${if (mice.size == 1) "mouse" else "mice"}."
-            )
-        }
+        shouldRescan = true
     }
 
     fun reset() {
-        dx.set(0)
-        dy.set(0)
+        buffer.clear()
     }
 }

@@ -48,12 +48,21 @@ object RawInputMod {
             else -> "DirectAndRawInputEnvironmentPlugin"
         }
 
-        config = RawInputConfig()
+        EnvironmentFactory.initialize(environment)
+
+        if (!EnvironmentFactory.newInstance().isSupported) {
+            Notifications.INSTANCE.send(
+                NAME,
+                "Raw Input is not supported on your system. You can safely remove this mod."
+            )
+
+            return
+        }
 
         CommandManager.INSTANCE.registerCommand(RawInputCommand)
         CommandManager.INSTANCE.registerCommand(RescanCommand)
 
-        EnvironmentFactory.initialize(environment)
+        config = RawInputConfig()
 
         mc.mouseHelper = RawInputMouseHelper()
     }

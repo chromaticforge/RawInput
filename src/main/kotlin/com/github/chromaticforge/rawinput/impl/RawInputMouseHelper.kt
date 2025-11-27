@@ -23,8 +23,11 @@ class RawInputMouseHelper : MouseHelper() {
         }
 
         if (RawInputMod.config.enabled && RawInputThread.mice.isNotEmpty() && RawInputThread.isAlive) {
-            deltaX = RawInputThread.dx.getAndSet(0)
-            deltaY = RawInputThread.dy.getAndSet(0)
+            val drained = mutableListOf<Pair<Int, Int>>()
+            RawInputThread.buffer.drainTo(drained)
+
+            deltaX = drained.sumOf { it.first }
+            deltaY = drained.sumOf { it.second }
 
             tryRescan(
                 deltaX != 0 || deltaY != 0,
