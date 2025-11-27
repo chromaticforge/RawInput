@@ -21,7 +21,8 @@
 Directly processes mouse input for improved precision. Powered by OneConfig.
 
 ### Features
-- Asynchronous polling. 
+- Buffered inputs.
+- Asynchronous polling.
 - Automatic rescanning.
 - Safely disables on unsupported systems.
 

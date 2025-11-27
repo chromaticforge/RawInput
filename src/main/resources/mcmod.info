@@ -2,13 +2,14 @@
   {
     "modid": "${mod_id}",
     "name": "${mod_name}",
-    "description": "Directly handles input from the Mouse. Powered By Oneconfig.",
+    "description": "Directly processes mouse input for improved precision. Powered by OneConfig.",
     "version": "${mod_version}",
     "mcversion": "${mc_version}",
     "url": "https://modrinth.com/project/rawinput",
-    "logoFile": "logo.png",
+    "logoFile": "assets/rawinput/logo.png",
     "authorList": [
       "chromaticforge", "awruff"
-    ]
+    ],
+    "credits": "Sophia2605 helped with the rewrite."
   }
 ]

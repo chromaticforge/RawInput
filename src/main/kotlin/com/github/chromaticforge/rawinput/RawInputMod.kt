@@ -30,6 +30,7 @@ object RawInputMod {
                 NAME,
                 "Raw Input is not supported on your system. You can safely remove this mod."
             )
+            println("[Raw Input] Raw Input is not supported on your system.")
             return
         }
 
