@@ -1,6 +1,6 @@
-package com.github.chromaticforge.rawinput.impl
+package com.github.chromaticforge.rawinput.input
 
-import com.github.chromaticforge.rawinput.RawInputMod
+import com.github.chromaticforge.rawinput.config.RawInputConfig
 import net.minecraft.util.MouseHelper
 import org.lwjgl.input.Mouse
 import kotlin.math.abs
@@ -9,22 +9,18 @@ class RawInputMouseHelper : MouseHelper() {
     private var fails = 0
 
     init {
-        RawInputThread.start()
+        RawInputPoller.start()
     }
 
     override fun grabMouseCursor() {
-        RawInputThread.reset()
+        RawInputPoller.reset()
         super.grabMouseCursor()
     }
 
     override fun mouseXYChange() {
-        if (RawInputThread.state == Thread.State.NEW) {
-            RawInputThread.start()
-        }
-
-        if (RawInputMod.config.enabled && RawInputThread.mice.isNotEmpty() && RawInputThread.isAlive) {
+        if (RawInputConfig.enabled) {
             val drained = mutableListOf<Pair<Int, Int>>()
-            RawInputThread.buffer.drainTo(drained)
+            RawInputPoller.buffer.drainTo(drained)
 
             deltaX = drained.sumOf { it.first }
             deltaY = drained.sumOf { it.second }
@@ -41,7 +37,7 @@ class RawInputMouseHelper : MouseHelper() {
     private fun tryRescan(still: Boolean, movement: Boolean) {
         if (!still && !movement) {
             if (++fails > 5) {
-                RawInputThread.rescan()
+                RawInputPoller.requestRescan()
                 fails = 0
             }
         } else if (movement) {

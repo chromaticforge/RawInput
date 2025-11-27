@@ -4,11 +4,9 @@ import cc.polyfrost.oneconfig.utils.Notifications
 import cc.polyfrost.oneconfig.utils.commands.CommandManager
 import cc.polyfrost.oneconfig.utils.dsl.mc
 import com.github.chromaticforge.rawinput.command.RawInputCommand
-import com.github.chromaticforge.rawinput.command.RescanCommand
 import com.github.chromaticforge.rawinput.config.RawInputConfig
-import com.github.chromaticforge.rawinput.impl.RawInputMouseHelper
-import com.github.chromaticforge.rawinput.util.EnvironmentFactory
-import com.github.chromaticforge.rawinput.util.LibraryChecker
+import com.github.chromaticforge.rawinput.input.RawInputMouseHelper
+import com.github.chromaticforge.rawinput.util.EnvironmentManager
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 
@@ -23,46 +21,21 @@ object RawInputMod {
     const val NAME = "@MOD_NAME@"
     const val VERSION = "@MOD_VERSION@"
 
-    lateinit var config: RawInputConfig
-
-    lateinit var environment: String
-
     @Mod.EventHandler
     fun onFMLInitialization(event: FMLInitializationEvent) {
-        val isDirectInputAvailable = LibraryChecker.isLibraryLoaded("jinput-dx8")
-        val isRawInputAvailable = LibraryChecker.isLibraryLoaded("jinput-raw")
+        val setupResult = EnvironmentManager.setup()
 
-        if (isDirectInputAvailable || isRawInputAvailable) {
-            setupRawInputEnvironment(isDirectInputAvailable, isRawInputAvailable)
-        } else {
+        if (!setupResult.supported) {
             Notifications.INSTANCE.send(
                 NAME,
                 "Raw Input is not supported on your system. You can safely remove this mod."
             )
-        }
-    }
-
-    private fun setupRawInputEnvironment(direct: Boolean, raw: Boolean) {
-        environment = when {
-            direct && !raw -> "DirectInputEnvironmentPlugin"
-            else -> "DirectAndRawInputEnvironmentPlugin"
-        }
-
-        EnvironmentFactory.initialize(environment)
-
-        if (!EnvironmentFactory.newInstance().isSupported) {
-            Notifications.INSTANCE.send(
-                NAME,
-                "Raw Input is not supported on your system. You can safely remove this mod."
-            )
-
             return
         }
 
         CommandManager.INSTANCE.registerCommand(RawInputCommand)
-        CommandManager.INSTANCE.registerCommand(RescanCommand)
 
-        config = RawInputConfig()
+        RawInputConfig.load()
 
         mc.mouseHelper = RawInputMouseHelper()
     }

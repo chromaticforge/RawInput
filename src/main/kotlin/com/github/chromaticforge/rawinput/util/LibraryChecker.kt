@@ -9,9 +9,8 @@ object LibraryChecker {
         val libraryPath = System.getProperty("java.library.path") ?: return false
         val mappedName = System.mapLibraryName(name)
 
-        libraryPath.split(File.pathSeparator)
-            .any { dir ->
-                Files.exists(Paths.get(dir, mappedName))
-            }
+        libraryPath.split(File.pathSeparator).any { dir ->
+            Files.exists(Paths.get(dir, mappedName))
+        }
     }.getOrDefault(false)
 }
